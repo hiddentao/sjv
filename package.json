@@ -1,0 +1,42 @@
+{
+  "name": "simple-nosql-schema",
+  "version": "1.0.0",
+  "description": "An easy-to-write schema and validator for NoSQL JSON documents",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hiddentao/simple-nosql-schema.git"
+  },
+  "keywords": [
+    "mongo",
+    "odm",
+    "nosql",
+    "schema",
+    "json",
+    "validate"
+  ],
+  "author": "Ramesh Nair <ram@hiddentao.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hiddentao/simple-nosql-schema/issues"
+  },
+  "homepage": "https://github.com/hiddentao/simple-nosql-schema",
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "co-mocha": "^1.1.0",
+    "gulp": "~3.8.1",
+    "gulp-jshint": "~1.6.3",
+    "gulp-mocha": "~0.4.1",
+    "mocha": "^2.1.0",
+    "run-sequence": "~0.3.6",
+    "sinon": "~1.10.2",
+    "sinon-chai": "~2.5.0"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "engine-strict": true
+}
