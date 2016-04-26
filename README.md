@@ -2,16 +2,17 @@
 
 [![Build Status](https://secure.travis-ci.org/hiddentao/simple-nosql-schema.png)](http://travis-ci.org/hiddentao/simple-nosql-schema)
 
-An easy-to-write schema validator for NoSQL (e.g. Mongo) JSON objects.
+An easy-to-write yet powerful schema validator for NoSQL (e.g. Mongo) JSON objects.
 
 This is useful if you're inserting data into a NoSQL database and wish to 
-perform some light-weight data type validation.
+perform some light-weight data validation.
 
 ## Features
 
 * ES5-compatible, uses Promises
 * Elegant, minimal syntax
 * Comprehensive error reporting - all validation failures, not just first one
+* Asynchronous custom validators
 * [Type-matching](#type-matching)
 * No other library dependencies (small browser footprint)
 
