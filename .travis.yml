@@ -1,0 +1,15 @@
+language: node_js
+
+node_js:
+  - "4"
+  - "5"
+
+before_script:
+  - "npm install"
+
+script:
+  - "npm test"
+
+notifications:
+  email:
+    - ram@hiddentao.com
