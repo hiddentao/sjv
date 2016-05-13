@@ -582,6 +582,7 @@ test['typeify'] = {
   'object': require('./typeify/object'),
   'string': require('./typeify/string'),
   'number': require('./typeify/number'),
+  'limitTypes': require('./typeify/limitTypes'),
 };
 
 

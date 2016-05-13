@@ -74,8 +74,34 @@ exports.default = function*() {
 
 
 
+exports.specificSimple = function*() {
+  var self = this;
 
-exports.specific = function*() {
+  var s = schema({
+    first: {
+      type: {
+        name: {
+          type: [String]
+        },
+      }
+    }
+  });
+
+  s.typeify({
+    first: {
+      name: [23, false]
+    }
+  }).should.eql({
+    first: {
+      name: ['23', 'false']
+    }    
+  });
+};
+
+
+
+
+exports.specificComplex = function*() {
   var self = this;
 
   var s = schema({

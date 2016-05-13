@@ -206,8 +206,8 @@ Schema.prototype._doTypeify = function(params) {
   var schemaPath = params.schema.path, 
     schemaNode = params.schema.node,
     object = params.object,
-    result = params.result;
-
+    result = params.result,
+    limitTypes = params.limitTypes || [String,Boolean,Number,Date];
 
   for (var key in schemaNode) {
     var currentPath = schemaPath + '/' + key,
@@ -215,7 +215,7 @@ Schema.prototype._doTypeify = function(params) {
       objectNode = object[key],
       currentNodeType = currentNode.type;
 
-    // console.log(currentPath, currentNodeType.toString(), key, objectNode, result);
+    // console.log(currentPath, currentNodeType, objectNode);
 
     // if type not set
     if (!currentNodeType) {
@@ -236,12 +236,14 @@ Schema.prototype._doTypeify = function(params) {
     try {
       switch (currentNodeType) {
         case String:
-          if ('string' !== typeof objectNode) {
-            objectNode = '' + objectNode;
+          if (-1 < limitTypes.indexOf(String)) {
+            if ('string' !== typeof objectNode) {
+              objectNode = '' + objectNode;
+            }            
           }
           break;
         case Boolean:
-          if ('boolean' !== typeof objectNode) {
+          if (-1 < limitTypes.indexOf(Boolean) && 'boolean' !== typeof objectNode) {
             var tmp = ('' + objectNode).toLowerCase();
 
             if ('false' === tmp || '0' === tmp || 'no' === tmp) {
@@ -252,7 +254,7 @@ Schema.prototype._doTypeify = function(params) {
           }
           break;
         case Number:
-          if ('number' !== typeof objectNode) {
+          if (-1 < limitTypes.indexOf(Number) && 'number' !== typeof objectNode) {
             var tmp = '' + objectNode;
 
             tmp = (0 <= tmp.indexOf('.')) 
@@ -265,7 +267,7 @@ Schema.prototype._doTypeify = function(params) {
           }
           break;
         case Date:
-          if (!(objectNode instanceof Date)) {
+          if (-1 < limitTypes.indexOf(Date) && !(objectNode instanceof Date)) {
             try {
               var tmp = new Date(objectNode);
               
@@ -279,7 +281,6 @@ Schema.prototype._doTypeify = function(params) {
           break;
         case Object:
         case Array:
-          // not much we can do here
         default:
           // if value should be an array
           if (Array.isArray(currentNodeType)) {
@@ -287,16 +288,25 @@ Schema.prototype._doTypeify = function(params) {
               var subSchema = currentNodeType[0];
 
               for (var index in objectNode) {
-                var item = objectNode[index];
+                var item = {},
+                  subnode = {};
+
+                subnode[index] = {};
+                subnode[index].type = subSchema;
+                item[index] = objectNode[index];
 
                 self._doTypeify({
                   schema: {
-                    path: currentPath + '/' + index,
-                    node: subSchema,
+                    path: currentPath,
+                    node: subnode,
                   },
                   object: item,
                   result: item,
+                  limitTypes: limitTypes,
                 });
+
+                // overwrite original
+                objectNode[index] = item[index];
               }
             }
           }
@@ -309,6 +319,7 @@ Schema.prototype._doTypeify = function(params) {
               },
               object: objectNode,
               result: objectNode,
+              limitTypes: limitTypes,
             });
           }
       }
@@ -337,14 +348,22 @@ Schema.prototype._doTypeify = function(params) {
  *
  * Any properties in the object which are not present in the schema are left 
  * unchanged. And any schema properties not present in the object are ignored.
+ *
+ * If `limitTypes` is set then it will only typeify the types given within. 
+ * For example if we only wish to process `Date` types then we would pass 
+ * `[Date]` to `limitTypes`.
  * 
  * @param {Object} obj Object to typeify.
+ * @param {Object} [options] Additional options.
+ * @param {Array} [options.limitTypes] Limit type-ification to given types.
  * @return {Object} Copy of the original object with new property values.
  */
-Schema.prototype.typeify = function(obj) {
+Schema.prototype.typeify = function(obj, options) {
   if (!obj) {
     return obj;
   }
+
+  options = options || {};
 
   var newObj = {};
 
@@ -355,6 +374,7 @@ Schema.prototype.typeify = function(obj) {
     },
     object: obj,
     result: newObj,
+    limitTypes: options.limitTypes,
   });
 
   return newObj;

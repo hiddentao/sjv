@@ -1,6 +1,6 @@
 {
   "name": "simple-nosql-schema",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An easy-to-write schema and validator for NoSQL JSON documents",
   "main": "index.js",
   "scripts": {

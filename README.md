@@ -304,6 +304,30 @@ var typedObject = schema.typeify(newObject);
 */
 ```
 
+
+You can limit type-ification to certain types only by setting the 
+`limitTypes` option:
+
+```js
+var newObject = {
+  name: 23,
+  isMarried: '0',
+  numCars: '3',
+  born: '2018-01-01'
+};
+
+var typedObject = schema.typeify(newObject, { limitTypes: [String]});
+
+/*
+{
+  name: '23',
+  isMarried: '0',
+  numCars: '3',
+  born: '2018-01-01'
+}
+*/
+```
+
 ## Building
 
 To run the tests:
