@@ -17,32 +17,7 @@ var schema = require('../');
 
 var mocker = null;
 
-
-var test = module.exports = {
-  beforeEach: function*() {
-    mocker = sinon.sandbox.create({
-      useFakeTimers: true
-    });
-  },
-  afterEach: function*() {
-    mocker.restore();
-  }
-};
-
-
-test['construction'] = {
-  'no schema': function*() {
-    expect(function() {
-      schema();
-    }).to.throw('Schema is empty');
-  },
-  'have schema': function*() {
-    expect(function() {
-      schema({});
-    }).to.not.throw.Error;
-  },
-};
-
+var test = exports
 
 var tryCatch = function*(schemaObj, obj, options) {
   try {
@@ -65,44 +40,14 @@ var tryNoCatch = function*(schemaObj, obj, options) {
 
 
 
-test['bad schema'] = function*() {
-  var s = schema({
-    name: {},
-    address: {},
-  });
-
-  var e = yield tryCatch(s, {
-    name: 'test'
-  });
-
-  e.failures.should.eql([
-    '/name: invalid schema',
-    '/address: invalid schema',
-  ]);
-};
-
-
-
 test['simple match'] = function*() {
   var s = schema({
-    name: {
-      type: String
-    },
-    numSiblings: {
-      type: Number
-    },
-    born: {
-      type: Date,
-    },
-    hasKids: {
-      type: Boolean,
-    },
-    cars: {
-      type: Array
-    },
-    address: {
-      type: Object
-    }
+    name: String,
+    numSiblings: Number,
+    born: Date,
+    hasKids: Boolean,
+    cars: Array,
+    address: Object
   });
 
   yield tryNoCatch(s, {
@@ -120,28 +65,20 @@ test['simple match'] = function*() {
 
 test['simple mismatch'] = function*() {
   var s = schema({
-    name: {
-      type: String
-    },
+    name: String,
     type: {
       type: String,
       enum: ['low', 'medium', 'high'],
     },
-    numSiblings: {
-      type: Number
-    },
-    born: {
-      type: Date,
-    },
+    numSiblings: Number,
+    born: Date,
     hasKids: {
       type: Boolean,
     },
     cars: {
       type: Array
     },
-    address: {
-      type: Object
-    }
+    address: Object
   });
 
   var e = yield tryCatch(s, {
@@ -171,21 +108,15 @@ test['simple mismatch'] = function*() {
 
 test['not required'] = function*() {
   var s = schema({
-    name: {
-      type: String,
-    },
+    name: String,
     numSiblings: {
       type: Number
     },
-    born: {
-      type: Date,
-    },
+    born: Date,
     hasKids: {
       type: Boolean,
     },
-    cars: {
-      type: Array
-    },
+    cars: Array,
     address: {
       type: Object
     }
@@ -197,79 +128,25 @@ test['not required'] = function*() {
 
 
 
-test['required'] = {
-  beforeEach: function*() {
-    this.s = schema({
-      name: {
-        type: String,
-        required: true,
-      },
-      numSiblings: {
-        type: Number,
-        required: true,
-      },
-      born: {
-        type: Date,
-        required: true,
-      },
-      hasKids: {
-        type: Boolean,
-        required: true,
-      },
-      cars: {
-        type: Array,
-        required: true,
-      },
-      address: {
-        type: Object,
-        required: true,
-      }
-    });
-  },
-
-  'missing': function*() {
-    var e = yield tryCatch(this.s, {});
-
-    e.failures.should.eql([
-      "/name: missing value",
-      "/numSiblings: missing value",
-      "/born: missing value",
-      "/hasKids: missing value",
-      "/cars: missing value",
-      "/address: missing value"
-    ]);
-  },
-
-  'ignore missing': function*() {
-    yield tryNoCatch(this.s, {}, {
-      ignoreMissing: true
-    });
-  }
-};
-
 
 
 
 test['array of items'] = {
   'match': function*() {
     var Child = {
-      name: {
-        type: String
-      },
+      name: String,
       age: {
         type: Number
       }
     };
 
     var s = schema({
-      name: {
-        type: String,
-      },
+      name: String,
       children: {
         type: [Child]
       }
     });
-    
+
     yield tryNoCatch(s, {
       name: 'john',
       children: [
@@ -286,12 +163,8 @@ test['array of items'] = {
   },
   'mismatch': function*() {
     var Child = {
-      name: {
-        type: String
-      },
-      age: {
-        type: Number
-      }
+      name: String,
+      age: Number
     };
 
     var s = schema({
@@ -302,7 +175,7 @@ test['array of items'] = {
         type: [Child]
       }
     });
-  
+
     var e = yield tryCatch(s, {
       name: 'john',
       children: [
@@ -317,10 +190,10 @@ test['array of items'] = {
       ]
     });
 
-    e.failures.should.eql([ 
+    e.failures.should.eql([
       '/children/0/age: must be a number',
       '/children/1/name: must be a string',
-      '/children/1/age: must be a number' 
+      '/children/1/age: must be a number'
     ]);
   }
 };
@@ -332,23 +205,17 @@ test['array of items'] = {
 test['sub-object'] = {
   'match': function*() {
     var Child = {
-      name: {
-        type: String
-      },
-      age: {
-        type: Number
-      }
+      name: String,
+      age: Number
     };
 
     var s = schema({
-      name: {
-        type: String,
-      },
+      name: String,
       children: {
         type: Child
       }
     });
-    
+
     yield tryNoCatch(s, {
       name: 'john',
       children: {
@@ -359,9 +226,7 @@ test['sub-object'] = {
   },
   'mismatch': function*() {
     var Child = {
-      name: {
-        type: String
-      },
+      name: String,
       age: {
         type: Number
       }
@@ -375,7 +240,7 @@ test['sub-object'] = {
         type: Child
       }
     });
-  
+
     var e = yield tryCatch(s, {
       name: 'john',
       children: {
@@ -384,9 +249,9 @@ test['sub-object'] = {
       },
     });
 
-    e.failures.should.eql([ 
+    e.failures.should.eql([
       '/children/name: must be a string',
-      '/children/age: must be a number' 
+      '/children/age: must be a number'
     ]);
   }
 };
@@ -405,9 +270,7 @@ test['deeply nested objects'] = {
           houseNum: {
             type: Number
           },
-          street: {
-            type: String
-          },
+          street: String,
           country: {
             type: String,
           },
@@ -415,22 +278,18 @@ test['deeply nested objects'] = {
       },
       toys: {
         type: [{
-          name: {
-            type: String
-          }
+          name: String
         }]
       }
     };
 
     var s = schema({
-      name: {
-        type: String,
-      },
+      name: String,
       children: {
         type: Child
       },
     });
-    
+
     var e = yield tryCatch(s, {
       name: 'john',
       children: {
@@ -454,27 +313,17 @@ test['deeply nested objects'] = {
   },
   'mismatch': function*() {
     var Child = {
-      name: {
-        type: String
-      },
+      name: String,
       address: {
         type: {
-          houseNum: {
-            type: Number
-          },
-          street: {
-            type: String
-          },
-          country: {
-            type: String,
-          },
+          houseNum: Number,
+          street: String,
+          country: String,
         },
       },
       toys: {
         type: [{
-          name: {
-            type: String
-          }
+          name: String
         }]
       }
     };
@@ -487,7 +336,7 @@ test['deeply nested objects'] = {
         type: Child
       },
     });
-    
+
     yield tryNoCatch(s, {
       name: 'john',
       children: {
@@ -505,87 +354,3 @@ test['deeply nested objects'] = {
     });
   }
 };
-
-
-
-
-test['custom validators'] = {
-  beforeEach: function*() {
-    this.s = schema({
-      name: {
-        type: String,
-        validate: [
-          function(value) {
-            return new Promise((resolve, reject) => {
-              try {
-                if (1 === value.length) {
-                  throw new Error('too small');
-                }           
-
-                resolve();     
-              } catch (err) {
-                reject(err);
-              }
-            });
-          },
-          function(value) {
-            return new Promise((resolve, reject) => {
-              try {
-                if ('amy' !== value) {
-                  throw new Error('must be amy');
-                }
-
-                resolve();     
-              } catch (err) {
-                reject(err);
-              }
-            });
-          },
-        ]
-      },
-    });
-  },
-
-  'fail': function*() {
-    var e = yield tryCatch(this.s, {
-      name: '1',
-    });
-
-    e.failures.should.eql([
-      "/name: too small",
-      "/name: must be amy"
-    ]);
-
-    e = yield tryCatch(this.s, {
-      name: 'john',
-    });
-
-    e.failures.should.eql([
-      "/name: must be amy"
-    ]);
-  },
-
-  'pass': function*() {
-    var e = yield tryNoCatch(this.s, {
-      name: 'amy',
-    });
-  },
-};
-
-
-
-
-test['typeify'] = {
-  'boolean': require('./typeify/boolean'),
-  'date': require('./typeify/date'),
-  'array': require('./typeify/array'),
-  'object': require('./typeify/object'),
-  'string': require('./typeify/string'),
-  'number': require('./typeify/number'),
-  'limitTypes': require('./typeify/limitTypes'),
-};
-
-
-
-
-test['shorthand'] = require('./shorthand')
