@@ -33,12 +33,8 @@ Here is a schema with all the possible field types:
 
 ```js
 var schema = {
-  name: {
-    type: String
-  },
-  isMarried: {
-    type: Boolean
-  },
+  name: String, // shorthand for `{ type: String }`
+  isMarried: Boolean,
   numCars: {
     type: Number
   },

@@ -15,6 +15,7 @@ var Schema = function(schema) {
     throw new Error('Schema is empty');
   }
 
+  this._defaultLimitTypes = [String,Boolean,Number,Date,Array,Object]
   this.schema = schema;  
 }
 
@@ -72,12 +73,15 @@ Schema.prototype._doValidate = function(params, options) {
 
   var schemaPath = params.schema.path, 
     schemaNode = params.schema.node,
-    obj = params.object;
+    obj = params.object,
+    limitTypes = params.limitTypes || this._defaultLimitTypes;
 
   return Promise.all(Object.keys(schemaNode).map(function(key) {
     try {
       var currentPath = schemaPath + '/' + key,
-        currentNode = schemaNode[key],
+        currentNode = limitTypes.indexOf(schemaNode[key]) > -1
+          ? { type: schemaNode[key] }
+          : schemaNode[key],
         objectNode = obj[key],
         currentNodeType = currentNode.type,
         currentNodeValidators = currentNode.validate || [];
@@ -207,11 +211,13 @@ Schema.prototype._doTypeify = function(params) {
     schemaNode = params.schema.node,
     object = params.object,
     result = params.result,
-    limitTypes = params.limitTypes || [String,Boolean,Number,Date];
+    limitTypes = params.limitTypes || this._defaultLimitTypes;
 
   for (var key in schemaNode) {
     var currentPath = schemaPath + '/' + key,
-      currentNode = schemaNode[key],
+      currentNode = limitTypes.indexOf(schemaNode[key]) < 0
+        ? schemaNode[key]
+        : { type: schemaNode[key] },
       objectNode = object[key],
       currentNodeType = currentNode.type;
 
