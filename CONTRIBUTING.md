@@ -1,10 +1,10 @@
-# Contribute to simple-nosql-schema
+# Contribute to sjv
 
 This guide guidelines for those wishing to contribute.
 
 ## Contributor license agreement
 
-By submitting code as an individual or as an entity you agree that your code is licensed the same as `simple-nosql-schema`.
+By submitting code as an individual or as an entity you agree that your code is licensed the same as `sjv`.
 
 ## Issues and pull requests
 

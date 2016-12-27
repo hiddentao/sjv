@@ -1,14 +1,14 @@
 {
-  "name": "simple-nosql-schema",
-  "version": "1.2.0",
-  "description": "An easy-to-write schema and validator for NoSQL JSON documents",
+  "name": "sjv",
+  "version": "1.0.0",
+  "description": "An easy-to-write schema and deep validator for JSON documents",
   "main": "index.js",
   "scripts": {
     "test": "gulp"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hiddentao/simple-nosql-schema.git"
+    "url": "https://github.com/hiddentao/sjv.git"
   },
   "keywords": [
     "mongo",
@@ -21,9 +21,9 @@
   "author": "Ramesh Nair <ram@hiddentao.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hiddentao/simple-nosql-schema/issues"
+    "url": "https://github.com/hiddentao/sjv/issues"
   },
-  "homepage": "https://github.com/hiddentao/simple-nosql-schema",
+  "homepage": "https://github.com/hiddentao/sjv",
   "devDependencies": {
     "chai": "~1.9.1",
     "co-mocha": "^1.1.0",

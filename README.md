@@ -1,11 +1,8 @@
-# simple-nosql-schema
+# sjv
 
-[![Build Status](https://secure.travis-ci.org/hiddentao/simple-nosql-schema.png)](http://travis-ci.org/hiddentao/simple-nosql-schema)
+[![Build Status](https://secure.travis-ci.org/hiddentao/sjv.png)](http://travis-ci.org/hiddentao/sjv)
 
-An easy-to-write yet powerful schema validator for NoSQL (e.g. Mongo) JSON objects.
-
-This is useful if you're inserting data into a NoSQL database and wish to
-perform some light-weight data validation.
+An easy-to-write yet powerful schema validator for objects.
 
 ## Features
 
@@ -21,7 +18,7 @@ perform some light-weight data validation.
 **This package requires Node 4 or above**
 
 ```bash
-$ npm install simple-nosql-schema
+$ npm install sjv
 ```
 
 To use in the browser ensure you must have a working Promise implementation
@@ -143,7 +140,7 @@ var CompanySchema = {
 Now we can validate data against it:
 
 ```js
-var schema = require('simple-nosql-schema')(CompanySchema);
+var schema = require('sjv')(CompanySchema);
 
 schema.validate({
   name: 'my company',
@@ -334,8 +331,8 @@ To run the tests:
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](https://github.com/hiddentao/simple-nosql-schema/blob/master/CONTRIBUTING.md).
+Contributions are welcome! Please see [CONTRIBUTING.md](https://github.com/hiddentao/sjv/blob/master/CONTRIBUTING.md).
 
 ## License
 
-MIT - see [LICENSE.md](https://github.com/hiddentao/simple-nosql-schema/blob/master/LICENSE.md)
+MIT - see [LICENSE.md](https://github.com/hiddentao/sjv/blob/master/LICENSE.md)
