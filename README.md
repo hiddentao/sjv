@@ -4,7 +4,7 @@
 
 An easy-to-write yet powerful schema validator for NoSQL (e.g. Mongo) JSON objects.
 
-This is useful if you're inserting data into a NoSQL database and wish to 
+This is useful if you're inserting data into a NoSQL database and wish to
 perform some light-weight data validation.
 
 ## Features
@@ -24,10 +24,10 @@ perform some light-weight data validation.
 $ npm install simple-nosql-schema
 ```
 
-To use in the browser ensure you must have a working Promise implementation 
+To use in the browser ensure you must have a working Promise implementation
 (e.g. [bluebird](http://bluebirdjs.com/)) available at `window.Promise`.
 
-## Usage 
+## Usage
 
 Here is a schema with all the possible field types:
 
@@ -43,11 +43,11 @@ var schema = {
   },
   // any plain JS object with any keys
   jobDetails: {
-    type: Object 
+    type: Object
   },
   // a simple array with any data
   favouriteNumbers: {
-    type: Array 
+    type: Array
   },
   // a nested object which adheres to given schema
   address: {
@@ -84,7 +84,7 @@ var schema = {
     }],
   },
 }
-``` 
+```
 
 
 ## Example
@@ -123,7 +123,7 @@ var EmployeeSchema = {
       name: {
         type: String,
         required: true      
-      } 
+      }
     }
   },
 };
@@ -174,7 +174,7 @@ schema.validate({
   ]
 })
 .catch(function(err) {
-  
+
   /*
     Error: Validation failed
    */
@@ -219,7 +219,7 @@ var object = {
   born: new Date(2015,0,1)
 }
 
-var str = JSON.stringify(object); 
+var str = JSON.stringify(object);
 
 /*
 "{"name":"John","isMarried":true,"numCars":3,"born":"2014-12-31T16:00:00.000Z"}"
@@ -301,7 +301,7 @@ var typedObject = schema.typeify(newObject);
 ```
 
 
-You can limit type-ification to certain types only by setting the 
+You can limit type-ification to certain types only by setting the
 `limitTypes` option:
 
 ```js
