@@ -1,6 +1,6 @@
 {
   "name": "sjv",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "An easy-to-write schema and deep validator for JSON documents",
   "main": "index.js",
   "scripts": {
